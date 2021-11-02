@@ -3,95 +3,106 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-
-public class Sudoku : MonoBehaviour {
+public class Sudoku : MonoBehaviour 
+{
 	public Cell prefabCell;
 	public Canvas canvas;
 	public Text feedback;
 	public float stepDuration = 0.05f;
 	[Range(1, 82)]public int difficulty = 40;
 
-	Matrix<Cell> _board;
-	Matrix<int> _createdMatrix;
-    List<int> posibles = new List<int>();
-	int _smallSide;
-	int _bigSide;
-    string memory = "";
-    string canSolve = "";
-    bool canPlayMusic = false;
-    List<int> nums = new List<int>();
+	private Matrix<Cell> _board;
+	private Matrix<int> _createdMatrix;
+    private List<int> _posibles = new List<int>();
+    private List<int> _nums = new List<int>();
+	private int _smallSide;
+	private int _bigSide;
+    private string _memory = "";
+    private string _canSolve = "";
+    private bool _canPlayMusic = false;
 
-
-
-    float r = 1.0594f;
-    float frequency = 440;
-    float gain = 0.5f;
-    float increment;
-    float phase;
-    float samplingF = 48000;
-
-
-    void Start()
+    private float r = 1.0594f;
+    private float _frequency = 440;
+    private float gain = 0.5f;
+    private float _increment;
+    private float _phase;
+    private float samplingF = 48000;
+    
+    private void Start()
     {
         long mem = System.GC.GetTotalMemory(true);
         feedback.text = string.Format("MEM: {0:f2}MB", mem / (1024f * 1024f));
-        memory = feedback.text;
+        _memory = feedback.text;
         _smallSide = 3;
         _bigSide = _smallSide * 3;
-        frequency = frequency * Mathf.Pow(r, 2);
+        _frequency = _frequency * Mathf.Pow(r, 2);
+        
         CreateEmptyBoard();
         ClearBoard();
     }
 
-    void ClearBoard() {
+    private void ClearBoard() 
+    {
 		_createdMatrix = new Matrix<int>(_bigSide, _bigSide);
-		foreach(var cell in _board) {
+
+		for (int i = 0; i < _board.Width; i++)
+		{
+			for (int j = 0; j < _board.Height; j++)
+			{
+				_board[i, j].number = 0;
+				_board[i, j].locked = _board[i, j].invalid = false;
+			}	
+		}
+		/*foreach(var cell in _board) 
+		{
 			cell.number = 0;
 			cell.locked = cell.invalid = false;
-		}
+		}*/
 	}
 
-	void CreateEmptyBoard() {
+	private void CreateEmptyBoard() 
+	{
 		float spacing = 68f;
 		float startX = -spacing * 4f;
 		float startY = spacing * 4f;
 
 		_board = new Matrix<Cell>(_bigSide, _bigSide);
-		for(int x = 0; x<_board.Width; x++) {
-			for(int y = 0; y<_board.Height; y++) {
+		for(int x = 0; x<_board.Width; x++) 
+		{
+			for(int y = 0; y<_board.Height; y++) 
+			{
                 var cell = _board[x, y] = Instantiate(prefabCell);
 				cell.transform.SetParent(canvas.transform, false);
 				cell.transform.localPosition = new Vector3(startX + x * spacing, startY - y * spacing, 0);
 			}
 		}
 	}
-	
-
 
 	//IMPLEMENTAR
-	int watchdog = 0;
-	bool RecuSolve(Matrix<int> matrixParent, int x, int y, int protectMaxDepth, List<Matrix<int>> solution)
+	private int watchdog = 0;
+	private bool RecuSolve(Matrix<int> matrixParent, int x, int y, int protectMaxDepth, List<Matrix<int>> solution)
     {
 		return false;
 	}
 
 
-    void OnAudioFilterRead(float[] array, int channels)
+    private void OnAudioFilterRead(float[] array, int channels)
     {
-        if(canPlayMusic)
+        if(_canPlayMusic)
         {
-            increment = frequency * Mathf.PI / samplingF;
+            _increment = _frequency * Mathf.PI / samplingF;
             for (int i = 0; i < array.Length; i++)
             {
-                phase = phase + increment;
-                array[i] = (float)(gain * Mathf.Sin((float)phase));
+                _phase = _phase + _increment;
+                array[i] = (float)(gain * Mathf.Sin((float)_phase));
             }
         }
         
     }
+    
     void changeFreq(int num)
     {
-        frequency = 440 + num * 80;
+        _frequency = 440 + num * 80;
     }
 
 	//IMPLEMENTAR - punto 3
@@ -111,42 +122,51 @@ public class Sudoku : MonoBehaviour {
     void SolvedSudoku()
     {
         StopAllCoroutines();
-        nums = new List<int>();
+        _nums = new List<int>();
         var solution = new List<Matrix<int>>();
         watchdog = 100000;
         var result =false;//????
         long mem = System.GC.GetTotalMemory(true);
-        memory = string.Format("MEM: {0:f2}MB", mem / (1024f * 1024f));
-        canSolve = result ? " VALID" : " INVALID";
+        _memory = string.Format("MEM: {0:f2}MB", mem / (1024f * 1024f));
+        _canSolve = result ? " VALID" : " INVALID";
 		//???
     }
 
-    void CreateSudoku()
+    private void CreateSudoku()
     {
         StopAllCoroutines();
-        nums = new List<int>();
-        canPlayMusic = false;
+        
+        _nums = new List<int>();
+        _canPlayMusic = false;
+        
         ClearBoard();
+        
         List<Matrix<int>> l = new List<Matrix<int>>();
         watchdog = 100000;
+        
         GenerateValidLine(_createdMatrix, 0, 0);
+        
         var result =false;
         _createdMatrix = l[0].Clone();
+        
         LockRandomCells();
         ClearUnlocked(_createdMatrix);
         TranslateAllValues(_createdMatrix);
+        
         long mem = System.GC.GetTotalMemory(true);
-        memory = string.Format("MEM: {0:f2}MB", mem / (1024f * 1024f));
-        canSolve = result ? " VALID" : " INVALID";
-        feedback.text = "Pasos: " + l.Count + "/" + l.Count + " - " + memory + " - " + canSolve;
+        _memory = string.Format("MEM: {0:f2}MB", mem / (1024f * 1024f));
+        _canSolve = result ? " VALID" : " INVALID";
+        feedback.text = "Pasos: " + l.Count + "/" + l.Count + " - " + _memory + " - " + _canSolve;
     }
-	void GenerateValidLine(Matrix<int> mtx, int x, int y)
+    
+	private void GenerateValidLine(Matrix<int> mtx, int x, int y)
 	{
 		int[]aux = new int[9];
 		for (int i = 0; i < 9; i++) 
 		{
 			aux [i] = i + 1;
 		}
+		
 		int numAux = 0;
 		for (int j = 0; j < aux.Length; j++) 
 		{
@@ -155,12 +175,12 @@ public class Sudoku : MonoBehaviour {
 			aux [r-1] = aux [j];
 			aux [j] = numAux;
 		}
+		
 		for (int k = 0; k < aux.Length; k++) 
 		{
 			mtx [k, 0] = aux [k];
 		}
 	}
-
 
 	void ClearUnlocked(Matrix<int> mtx)
 	{
@@ -214,6 +234,7 @@ public class Sudoku : MonoBehaviour {
             }
         }
     }
+    
     void CreateNew()
     {
         _createdMatrix = new Matrix<int>(Tests.validBoards[1]);
@@ -267,7 +288,6 @@ public class Sudoku : MonoBehaviour {
         else
             return true;
     }
-
 
     List<int> FilterZeros(List<int> list)
     {
