@@ -10,6 +10,10 @@ public class Matrix<T> : IEnumerable<T>
     private int _height;
     private int _capacity;
     private T[] _data;
+    
+    public int Width => _width;
+    public int Height => _height;
+    public int Capacity => _capacity;
 
     public Matrix(int width, int height)
     {
@@ -22,7 +26,19 @@ public class Matrix<T> : IEnumerable<T>
 
 	public Matrix(T[,] copyFrom)
     {
-        //IMPLEMENTAR: crea una version de Matrix a partir de una matriz básica de C#
+	    _capacity = copyFrom.Length;
+        _width = copyFrom.GetLength(0);
+        _height = copyFrom.GetLength(1);
+        
+        _data = new T[_capacity];
+
+        for (int i = 0; i < _width; i++)
+        {
+	        for (int j = 0; j < _height; j++)
+	        {
+		        this[i, j] = copyFrom[i, j];
+	        }    
+        }
     }
 
 	public Matrix<T> Clone() 
@@ -56,18 +72,16 @@ public class Matrix<T> : IEnumerable<T>
     
     public T this[int x, int y] 
     {
-		get => _data[x + _height * y];
-		set => _data[x + _height * y] = value;
+	    get => _data[x + _height * y];
+	    set => _data[x + _height * y] = value;
     }
-
-    public int Width => _width;
-    public int Height => _height;
-    public int Capacity => _capacity;
 
     public IEnumerator<T> GetEnumerator()
     {
-        //IMPLEMENTAR
-        yield return default(T);
+	    foreach (var data	 in _data)
+        {
+	        yield return data;
+        }
     }
 
 	IEnumerator IEnumerable.GetEnumerator() 

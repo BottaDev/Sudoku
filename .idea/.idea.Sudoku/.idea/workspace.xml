@@ -10,6 +10,14 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/cafb29d5233847fbb4edcf8d7c32b1e3299c90/b1/99c442f7/GC.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -38,10 +46,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="15336">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="19140">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="15336" />
+      <option name="pid" value="19140" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -60,6 +68,12 @@
       <workItem from="1635732005379" duration="1006000" />
       <workItem from="1635809384378" duration="22000" />
       <workItem from="1635809523565" duration="5062000" />
+      <workItem from="1635969360445" duration="1386000" />
+      <workItem from="1636139681933" duration="1145000" />
+      <workItem from="1636230348989" duration="759000" />
+      <workItem from="1636243855616" duration="3392000" />
+      <workItem from="1636247370532" duration="1453000" />
+      <workItem from="1636310247509" duration="2261000" />
     </task>
     <servers />
   </component>
@@ -76,30 +90,30 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Matrix.cs</url>
-          <line>28</line>
-          <properties documentPath="S:\PROJECTS\Unity Projects\Unity Repos\Sudoku\Assets\Matrix.cs" initialLine="32" containingFunctionPresentation="method 'Clone'">
-            <startOffsets>
-              <option value="550" />
-            </startOffsets>
-            <endOffsets>
-              <option value="551" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Sudoku.cs</url>
-          <line>148</line>
+          <line>163</line>
           <properties documentPath="S:\PROJECTS\Unity Projects\Unity Repos\Sudoku\Assets\Sudoku.cs" initialLine="143" containingFunctionPresentation="method 'CreateSudoku'">
             <startOffsets>
-              <option value="3836" />
+              <option value="4126" />
             </startOffsets>
             <endOffsets>
-              <option value="3854" />
+              <option value="4144" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="6" />
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Matrix.cs</url>
+          <line>44</line>
+          <properties documentPath="S:\PROJECTS\Unity Projects\Unity Repos\Sudoku\Assets\Matrix.cs" initialLine="45" containingFunctionPresentation="method 'Clone'">
+            <startOffsets>
+              <option value="901" />
+            </startOffsets>
+            <endOffsets>
+              <option value="902" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="21" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

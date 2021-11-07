@@ -39,25 +39,20 @@ public class Sudoku : MonoBehaviour
         
         CreateEmptyBoard();
         ClearBoard();
+        
+        // TODO: Borrar despues
+        CreateNew();
     }
 
     private void ClearBoard() 
     {
 		_createdMatrix = new Matrix<int>(_bigSide, _bigSide);
-
-		for (int i = 0; i < _board.Width; i++)
-		{
-			for (int j = 0; j < _board.Height; j++)
-			{
-				_board[i, j].number = 0;
-				_board[i, j].locked = _board[i, j].invalid = false;
-			}	
-		}
-		/*foreach(var cell in _board) 
+		
+		foreach(var cell in _board) 
 		{
 			cell.number = 0;
 			cell.locked = cell.invalid = false;
-		}*/
+		}
 	}
 
 	private void CreateEmptyBoard() 
@@ -81,7 +76,15 @@ public class Sudoku : MonoBehaviour
 	//IMPLEMENTAR
 	private int watchdog = 0;
 	private bool RecuSolve(Matrix<int> matrixParent, int x, int y, int protectMaxDepth, List<Matrix<int>> solution)
-    {
+	{
+		protectMaxDepth--;
+
+		if (protectMaxDepth <= 0)
+		{
+			Debug.LogError("Limite sobrepasado. No se pudo resolver");
+			return false;
+		}
+	    
 		return false;
 	}
 
@@ -122,11 +125,23 @@ public class Sudoku : MonoBehaviour
     void SolvedSudoku()
     {
         StopAllCoroutines();
+        
         _nums = new List<int>();
         var solution = new List<Matrix<int>>();
         watchdog = 100000;
-        var result =false;//????
+        
+        //var result = false;//????
+        bool result = false;
+        for (int y = 0; y < _board.Height; y++)
+        {
+	        for (int x = 0; x < _board.Width; x++)
+	        {
+		        result = RecuSolve(_createdMatrix, x, y, watchdog, solution);
+	        }
+        }
+        
         long mem = System.GC.GetTotalMemory(true);
+        
         _memory = string.Format("MEM: {0:f2}MB", mem / (1024f * 1024f));
         _canSolve = result ? " VALID" : " INVALID";
 		//???
@@ -192,23 +207,28 @@ public class Sudoku : MonoBehaviour
 		}
 	}
 
-	void LockRandomCells()
+	private void LockRandomCells()
 	{
 		List<Vector2> posibles = new List<Vector2> ();
-		for (int i = 0; i < _board.Height; i++) {
-			for (int j = 0; j < _board.Width; j++) {
+		
+		for (int i = 0; i < _board.Height; i++) 
+		{
+			for (int j = 0; j < _board.Width; j++) 
+			{
 				if (!_board [j, i].locked)
 					posibles.Add (new Vector2(j,i));
 			}
 		}
-		for (int k = 0; k < 82-difficulty; k++) {
+		
+		for (int k = 0; k < 82-difficulty; k++) 
+		{
 			int r = Random.Range (0, posibles.Count);
 			_board [(int)posibles [r].x, (int)posibles [r].y].locked = true;
 			posibles.RemoveAt (r);
 		}
 	}
 
-    void TranslateAllValues(Matrix<int> matrix)
+    private void TranslateAllValues(Matrix<int> matrix)
     {
         for (int y = 0; y < _board.Height; y++)
         {
@@ -235,13 +255,13 @@ public class Sudoku : MonoBehaviour
         }
     }
     
-    void CreateNew()
+    private void CreateNew()
     {
-        _createdMatrix = new Matrix<int>(Tests.validBoards[1]);
+        _createdMatrix = new Matrix<int>(Tests.validBoards[23]);
         TranslateAllValues(_createdMatrix);
     }
 
-    bool CanPlaceValue(Matrix<int> mtx, int value, int x, int y)
+    private bool CanPlaceValue(Matrix<int> mtx, int value, int x, int y)
     {
         List<int> fila = new List<int>();
         List<int> columna = new List<int>();
@@ -258,8 +278,6 @@ public class Sudoku : MonoBehaviour
                 else if(i == y && j != x) fila.Add(mtx[j,i]);
             }
         }
-
-
 
         cuadrante.x = (int)(x / 3);
 
