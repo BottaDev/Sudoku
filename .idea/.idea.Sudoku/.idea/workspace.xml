@@ -19,6 +19,8 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/cafb29d5233847fbb4edcf8d7c32b1e3299c90/b1/99c442f7/GC.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="20IVHHAqUfQdQlT8Wne4KoAWosL" />
@@ -47,10 +49,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="8644">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="8644" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -80,6 +82,7 @@
       <workItem from="1636585936597" duration="1432000" />
       <workItem from="1636593384629" duration="347000" />
       <workItem from="1636822855703" duration="5288000" />
+      <workItem from="1636840239260" duration="6202000" />
     </task>
     <servers />
   </component>
@@ -91,50 +94,5 @@
   <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Sudoku.cs</url>
-          <line>188</line>
-          <properties documentPath="S:\PROJECTS\Unity Projects\Unity Repos\Sudoku\Assets\Sudoku.cs" initialLine="143" containingFunctionPresentation="method 'CreateSudoku'">
-            <startOffsets>
-              <option value="4800" />
-            </startOffsets>
-            <endOffsets>
-              <option value="4818" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="14" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Matrix.cs</url>
-          <line>44</line>
-          <properties documentPath="S:\PROJECTS\Unity Projects\Unity Repos\Sudoku\Assets\Matrix.cs" initialLine="45" containingFunctionPresentation="method 'Clone'">
-            <startOffsets>
-              <option value="901" />
-            </startOffsets>
-            <endOffsets>
-              <option value="902" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="21" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Sudoku.cs</url>
-          <line>87</line>
-          <properties documentPath="S:\PROJECTS\Unity Projects\Unity Repos\Sudoku\Assets\Sudoku.cs" initialLine="87" containingFunctionPresentation="method 'RecuSolve'">
-            <startOffsets>
-              <option value="2348" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2349" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="23" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
