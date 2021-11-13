@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine.UI;
 
 public class Sudoku : MonoBehaviour 
@@ -27,6 +28,7 @@ public class Sudoku : MonoBehaviour
     private float _increment;
     private float _phase;
     private float samplingF = 48000;
+    private int watchdog = 0;
     
     private void Start()
     {
@@ -41,7 +43,15 @@ public class Sudoku : MonoBehaviour
         ClearBoard();
         
         // TODO: Borrar despues
-        CreateNew();
+        //CreateNew();
+    }
+    
+    private void Update () 
+    {
+	    if(Input.GetKeyDown(KeyCode.R) || Input.GetMouseButtonDown(1))
+		    SolvedSudoku();
+	    /*else if(Input.GetKeyDown(KeyCode.C) || Input.GetMouseButtonDown(0)) 
+		    CreateSudoku();*/	
     }
 
     private void ClearBoard() 
@@ -74,7 +84,6 @@ public class Sudoku : MonoBehaviour
 	}
 
 	//IMPLEMENTAR
-	private int watchdog = 0;
 	private bool RecuSolve(Matrix<int> matrixParent, int x, int y, int protectMaxDepth, List<Matrix<int>> solution)
 	{
 		protectMaxDepth--;
@@ -84,8 +93,39 @@ public class Sudoku : MonoBehaviour
 			Debug.LogError("Limite sobrepasado. No se pudo resolver");
 			return false;
 		}
-	    
-		return false;
+
+		if (y >= matrixParent.Height)
+			return true;
+
+		if (matrixParent[x, y] != 0)
+		{
+			// Check if has to change column....
+			if (x == matrixParent.Width - 1)
+				return RecuSolve(matrixParent, 0, y++, protectMaxDepth, solution);
+			
+			return RecuSolve(matrixParent, x++, y, protectMaxDepth, solution);
+		}
+		
+		Matrix<int> nextMatrix = new Matrix<int>(matrixParent.Width, matrixParent.Height);
+			
+		for (int i = 1; i < 9; i++)
+		{
+			if (CanPlaceValue(matrixParent, i, x, y))
+			{
+				matrixParent[x, y] = i;
+				nextMatrix = matrixParent.Clone();
+					
+				solution.Add(nextMatrix);
+					
+				break;
+			}
+		}
+		
+		// Check if has to change column....
+		if (x == matrixParent.Width - 1)
+			return RecuSolve(matrixParent, 0, y++, protectMaxDepth, solution);
+			
+		return RecuSolve(matrixParent, x++, y, protectMaxDepth, solution);
 	}
 
 
@@ -103,42 +143,27 @@ public class Sudoku : MonoBehaviour
         
     }
     
-    void changeFreq(int num)
+    private void changeFreq(int num)
     {
         _frequency = 440 + num * 80;
     }
 
 	//IMPLEMENTAR - punto 3
-	IEnumerator ShowSequence(List<Matrix<int>> seq)
+	private IEnumerator ShowSequence(List<Matrix<int>> seq)
     {
         yield return new WaitForSeconds(0);
     }
 
-	void Update () {
-		if(Input.GetKeyDown(KeyCode.R) || Input.GetMouseButtonDown(1))
-            SolvedSudoku();
-        else if(Input.GetKeyDown(KeyCode.C) || Input.GetMouseButtonDown(0)) 
-            CreateSudoku();	
-	}
-
 	//modificar lo necesario para que funcione.
-    void SolvedSudoku()
+    private void SolvedSudoku()
     {
         StopAllCoroutines();
         
         _nums = new List<int>();
         var solution = new List<Matrix<int>>();
-        watchdog = 100000;
+        watchdog = 5000;
         
-        //var result = false;//????
-        bool result = false;
-        for (int y = 0; y < _board.Height; y++)
-        {
-	        for (int x = 0; x < _board.Width; x++)
-	        {
-		        result = RecuSolve(_createdMatrix, x, y, watchdog, solution);
-	        }
-        }
+        bool result = RecuSolve(_createdMatrix, 0, 0, watchdog, solution);
         
         long mem = System.GC.GetTotalMemory(true);
         
