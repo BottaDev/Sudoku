@@ -11,7 +11,7 @@ public class Sudoku : MonoBehaviour
 	public Text feedback;
 	public float stepDuration = 0.05f;
 	[Range(1, 82)]public int difficulty = 40;
-	//public int cellRange = 3;
+	public int cellRange = 3;
 
 	private Matrix<Cell> _board;
 	private Matrix<int> _createdMatrix;
@@ -36,8 +36,8 @@ public class Sudoku : MonoBehaviour
         long mem = System.GC.GetTotalMemory(true);
         feedback.text = string.Format("MEM: {0:f2}MB", mem / (1024f * 1024f));
         _memory = feedback.text;
-        _smallSide = 3;
-        _bigSide = _smallSide * 3;
+        _smallSide = cellRange;
+        _bigSide = _smallSide * cellRange;
         _frequency = _frequency * Mathf.Pow(r, 2);
         
         CreateEmptyBoard();
@@ -109,8 +109,9 @@ public class Sudoku : MonoBehaviour
 		}
 		
 		Matrix<int> nextMatrix = new Matrix<int>(matrixParent.Width, matrixParent.Height);
-			
-		for (int i = 1; i < 10; i++)
+
+		int maxValue = cellRange * cellRange + 1;
+		for (int i = 1; i < maxValue; i++)
 		{
 			if (i <= _lastValues[x, y])
 				continue;
