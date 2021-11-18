@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+using UnityEditorInternal;
 
 
 public class Matrix<T> : IEnumerable<T>
@@ -32,30 +32,63 @@ public class Matrix<T> : IEnumerable<T>
         
         _data = new T[_capacity];
 
-        for (int i = 0; i < _width; i++)
+        /*for (int i = 0; i < _width; i++)
         {
 	        for (int j = 0; j < _height; j++)
 	        {
 		        this[i, j] = copyFrom[i, j];
 	        }    
+        }*/
+        
+        for (int y = 0; y < _height; y++)
+        {
+	        for (int x = 0; x < _width; x++)
+	        {
+		        this[x, y] = copyFrom[x, y];
+	        }
         }
     }
 
 	public Matrix<T> Clone() 
 	{
-		// REVISAR FUNCIONAMIENTO
-        Matrix<T> aux = new Matrix<T>(Width, Height);
+		Matrix<T> aux = new Matrix<T>(Width, Height);
         
-        for (int i = 0; i < _width; i++)
+        /*for (int i = 0; i < _width; i++)
         {
 	        for (int j = 0; j < _height; j++)
 	        {
 		        aux[i, j] = this[i, j];
 	        }    
+        }*/
+        
+        for (int y = 0; y < _height; y++)
+        {
+	        for (int x = 0; x < _width; x++)
+	        {
+		        aux[x, y] = this[x, y];
+	        }
         }
         
         return aux;
     }
+
+	public void ResetFromIndex(int xIndex, int yIndex)
+	{
+		int desireIndex = xIndex + _height * yIndex;
+		
+		T[] newData = new T[_capacity];
+
+		for (int i = 0; i < desireIndex; i++)
+		{
+			newData[i] = _data[i];
+		}
+		
+		_data = new T[_capacity];
+		for (int j = 0; j < newData.Length; j++)
+		{
+			_data[j] = newData[j];
+		}
+	}
 
 	public void SetRangeTo(int x0, int y0, int x1, int y1, T item) 
 	{
@@ -69,7 +102,7 @@ public class Matrix<T> : IEnumerable<T>
         //IMPLEMENTAR
         return l;
 	}
-    
+
     public T this[int x, int y] 
     {
 	    get => _data[x + _height * y];

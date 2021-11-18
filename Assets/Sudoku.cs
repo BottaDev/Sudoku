@@ -11,6 +11,7 @@ public class Sudoku : MonoBehaviour
 	public Text feedback;
 	public float stepDuration = 0.05f;
 	[Range(1, 82)]public int difficulty = 40;
+	//public int cellRange = 3;
 
 	private Matrix<Cell> _board;
 	private Matrix<int> _createdMatrix;
@@ -82,7 +83,9 @@ public class Sudoku : MonoBehaviour
 			}
 		}
 	}
-	
+
+	// Last values used in the cell
+	private Matrix<int> _lastValues;
 	private bool RecuSolve(Matrix<int> matrixParent, int x, int y, int protectMaxDepth, List<Matrix<int>> solution)
 	{
 		protectMaxDepth--;
@@ -107,20 +110,41 @@ public class Sudoku : MonoBehaviour
 		
 		Matrix<int> nextMatrix = new Matrix<int>(matrixParent.Width, matrixParent.Height);
 			
-		for (int i = 1; i < 9; i++)
+		for (int i = 1; i < 10; i++)
 		{
+			if (i <= _lastValues[x, y])
+				continue;
+			
 			// Si no puede con el 9, deberia de retroceder una celda
 			if (CanPlaceValue(matrixParent, i, x, y))
 			{
 				matrixParent[x, y] = i;
+				_lastValues[x, y] = i;
+				
 				nextMatrix = matrixParent.Clone();
-					
 				solution.Add(nextMatrix);
-					
+				
 				break;
 			}
+			else if (i == 9)
+			{
+				if (x != 0)
+				{
+					x -= 1;	
+				}
+				else
+				{
+					x = matrixParent.Width - 1;
+					y -= 1;
+				}
+				
+				// Se debe eliminar todos los valores de _lastValues
+				_lastValues.ResetFromIndex(x, y);
+				
+				return RecuSolve(matrixParent, x, y, protectMaxDepth, solution);
+			}
 		}
-		
+
 		// Check if has to change column....
 		if (x == matrixParent.Width - 1)
 			return RecuSolve(matrixParent, 0, y + 1 , protectMaxDepth, solution);
@@ -164,6 +188,7 @@ public class Sudoku : MonoBehaviour
         
         _nums = new List<int>();
         var solution = new List<Matrix<int>>();
+        _lastValues = new Matrix<int>(_createdMatrix.Width, _createdMatrix.Height);
         watchdog = 100000;
         
         bool result = RecuSolve(_createdMatrix, 0, 0, watchdog, solution);

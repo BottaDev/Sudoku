@@ -20,8 +20,9 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/695d1cc93cca45069c528c15c9fdd7493e2800/b9/ba261cec/Array.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/cafb29d5233847fbb4edcf8d7c32b1e3299c90/b1/99c442f7/GC.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="20IVHHAqUfQdQlT8Wne4KoAWosL" />
   <component name="ProjectViewState">
@@ -49,10 +50,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="8644">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="1416">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="8644" />
+      <option name="pid" value="1416" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -83,6 +84,12 @@
       <workItem from="1636593384629" duration="347000" />
       <workItem from="1636822855703" duration="5288000" />
       <workItem from="1636840239260" duration="6202000" />
+      <workItem from="1636933529551" duration="3353000" />
+      <workItem from="1636942781643" duration="787000" />
+      <workItem from="1637089218144" duration="515000" />
+      <workItem from="1637188323256" duration="1968000" />
+      <workItem from="1637191909772" duration="435000" />
+      <workItem from="1637192725619" duration="4155000" />
     </task>
     <servers />
   </component>
