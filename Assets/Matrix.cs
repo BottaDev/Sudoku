@@ -32,14 +32,6 @@ public class Matrix<T> : IEnumerable<T>
         
         _data = new T[_capacity];
 
-        /*for (int i = 0; i < _width; i++)
-        {
-	        for (int j = 0; j < _height; j++)
-	        {
-		        this[i, j] = copyFrom[i, j];
-	        }    
-        }*/
-        
         for (int y = 0; y < _height; y++)
         {
 	        for (int x = 0; x < _width; x++)
@@ -52,16 +44,8 @@ public class Matrix<T> : IEnumerable<T>
 	public Matrix<T> Clone() 
 	{
 		Matrix<T> aux = new Matrix<T>(Width, Height);
-        
-        /*for (int i = 0; i < _width; i++)
-        {
-	        for (int j = 0; j < _height; j++)
-	        {
-		        aux[i, j] = this[i, j];
-	        }    
-        }*/
-        
-        for (int y = 0; y < _height; y++)
+
+		for (int y = 0; y < _height; y++)
         {
 	        for (int x = 0; x < _width; x++)
 	        {
@@ -94,13 +78,23 @@ public class Matrix<T> : IEnumerable<T>
 	{
         //IMPLEMENTAR: iguala todo el rango pasado por parámetro a item
     }
-
-    //Todos los parametros son INCLUYENTES
+	
     public List<T> GetRange(int x0, int y0, int x1, int y1) 
     {
-        List<T> l = new List<T>();
-        //IMPLEMENTAR
-        return l;
+	    List<T> l = new List<T>();
+
+	    int startIndex = x0 + _height * y0;
+	    int endIndex = x1 + _height * y1;
+	    
+	    for (int i = startIndex; i < _data.Length; i++)
+	    {
+		    if (i > endIndex)
+			    break;;
+		    
+		    l.Add(_data[i]);
+	    }
+	    
+	    return l;
 	}
 
     public T this[int x, int y] 
