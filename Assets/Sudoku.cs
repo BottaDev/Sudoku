@@ -43,8 +43,8 @@ public class Sudoku : MonoBehaviour
         CreateEmptyBoard();
         ClearBoard();
         
-        // TODO: Borrar despues
-        //CreateNew();
+        // Ejercicio 1?
+        CreateNew();
     }
     
     private void Update () 
@@ -211,6 +211,8 @@ public class Sudoku : MonoBehaviour
         watchdog = 100000;
         //watchdog = 3200;
         
+        ClearBoard();
+        
         bool result = RecuSolve(_createdMatrix, 0, 0, watchdog, solution);
         
         _createdMatrix = solution.Last().Clone();
@@ -335,7 +337,14 @@ public class Sudoku : MonoBehaviour
     
     private void CreateNew()
     {
-        _createdMatrix = new Matrix<int>(Tests.validBoards[23]);
+	    int r = Random.Range(0, 2);
+	    bool result = r == 0;
+	    _canSolve = result ? "VALID" : "INVALID";
+	    feedback.text = _canSolve;
+	    
+	    r = result ? Random.Range(1, Tests.validBoards.Length) : Random.Range(1, Tests.invalidBoards.Length);
+        _createdMatrix = new Matrix<int>(result ? Tests.validBoards[r] : Tests.invalidBoards[r]);
+
         TranslateAllValues(_createdMatrix);
     }
 
