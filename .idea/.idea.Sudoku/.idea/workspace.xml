@@ -20,6 +20,10 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/695d1cc93cca45069c528c15c9fdd7493e2800/b9/ba261cec/Array.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/695d1cc93cca45069c528c15c9fdd7493e2800/36/02b85da6/List`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/cafb29d5233847fbb4edcf8d7c32b1e3299c90/b1/99c442f7/GC.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -49,10 +53,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="17252">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="3316">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="17252" />
+      <option name="pid" value="3316" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -94,6 +98,7 @@
       <workItem from="1637715342618" duration="1352000" />
       <workItem from="1637776672176" duration="4725000" />
       <workItem from="1637782932547" duration="812000" />
+      <workItem from="1637796184930" duration="6208000" />
     </task>
     <servers />
   </component>
@@ -110,17 +115,18 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <condition expression="x == 0 &amp;&amp; y == 1" language="C#" />
           <url>file://$PROJECT_DIR$/Assets/Sudoku.cs</url>
-          <line>338</line>
-          <properties documentPath="S:\PROJECTS\Unity Projects\Unity Repos\Sudoku\Assets\Sudoku.cs" initialLine="338" containingFunctionPresentation="method 'CreateNew'">
+          <line>187</line>
+          <properties documentPath="S:\PROJECTS\Unity Projects\Unity Repos\Sudoku\Assets\Sudoku.cs" initialLine="187" containingFunctionPresentation="method 'RecuSolve'">
             <startOffsets>
-              <option value="8506" />
+              <option value="4733" />
             </startOffsets>
             <endOffsets>
-              <option value="8507" />
+              <option value="4774" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="1" />
+          <option name="timeStamp" value="14" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

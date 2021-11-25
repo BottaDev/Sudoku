@@ -85,7 +85,7 @@ public class Sudoku : MonoBehaviour
 	}
 
 	// Last values used in the cell
-	private Matrix<int> _lastValues;
+	/*private Matrix<int> _lastValues;
 	private bool RecuSolve(Matrix<int> matrixParent, int x, int y, int protectMaxDepth, List<Matrix<int>> solution)
 	{
 		// Check if the Sudoku is complete
@@ -169,9 +169,53 @@ public class Sudoku : MonoBehaviour
 			return RecuSolve(matrixParent, 0, y + 1 , protectMaxDepth, solution);
 			
 		return RecuSolve(matrixParent, x + 1, y, protectMaxDepth, solution);
+	}*/
+	
+	private bool RecuSolve(Matrix<int> matrixParent, int x, int y, int protectMaxDepth, List<Matrix<int>> solution)
+	{
+		// Check if the Sudoku is complete
+		if (y >= matrixParent.Height)
+			return true;
+		
+		protectMaxDepth--;
+		
+		if (protectMaxDepth <= 0)
+		{
+			Debug.LogWarning("Limite sobrepasado. No se pudo resolver");
+			return false;
+		}
+
+		int maxValue = cellRange * cellRange + 1;
+		for (int i = 1; i < maxValue; i++)
+		{
+			if (CanPlaceValue(matrixParent, i, x, y))
+			{
+				matrixParent[x, y] = i;
+				Matrix<int> nextMatrix =  matrixParent.Clone();
+				solution.Add(nextMatrix);
+
+				int newX = x;
+				int newY = y;
+				
+				if (x == matrixParent.Width - 1)
+				{
+					newX = 0;
+					newY++;
+				}
+				else
+				{
+					newX++;
+				}
+
+				if (RecuSolve(nextMatrix, newX, newY, protectMaxDepth, solution))
+					return true;
+			}
+		}
+
+		matrixParent[x, y] = 0;
+		return false;
 	}
-
-
+	
     private void OnAudioFilterRead(float[] array, int channels)
     {
         if(_canPlayMusic)
@@ -207,7 +251,7 @@ public class Sudoku : MonoBehaviour
         
         _nums = new List<int>();
         var solution = new List<Matrix<int>>();
-        _lastValues = new Matrix<int>(_createdMatrix.Width, _createdMatrix.Height);
+        //_lastValues = new Matrix<int>(_createdMatrix.Width, _createdMatrix.Height);
         watchdog = 100000;
         //watchdog = 3200;
         
@@ -218,8 +262,9 @@ public class Sudoku : MonoBehaviour
         _createdMatrix = solution.Last().Clone();
         //LockRandomCells();
         ClearUnlocked(_createdMatrix);
-        StartCoroutine(ShowSequence(solution));
-        
+        //StartCoroutine(ShowSequence(solution));
+        TranslateAllValues(solution.Last());
+
         long mem = System.GC.GetTotalMemory(true);
         _memory = string.Format("MEM: {0:f2}MB", mem / (1024f * 1024f));
         _canSolve = result ? " VALID" : " INVALID";
@@ -319,12 +364,12 @@ public class Sudoku : MonoBehaviour
         }
     }
 
-    void TranslateSpecific(int value, int x, int y)
+    private void TranslateSpecific(int value, int x, int y)
     {
         _board[x, y].number = value;
     }
 
-    void TranslateRange(int x0, int y0, int xf, int yf)
+    private void TranslateRange(int x0, int y0, int xf, int yf)
     {
         for (int x = x0; x < xf; x++)
         {
@@ -396,7 +441,7 @@ public class Sudoku : MonoBehaviour
             return true;
     }
 
-    List<int> FilterZeros(List<int> list)
+    private List<int> FilterZeros(List<int> list)
     {
         List<int> aux = new List<int>();
         for (int i = 0; i < list.Count; i++)
