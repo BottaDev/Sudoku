@@ -43,7 +43,6 @@ public class Sudoku : MonoBehaviour
         CreateEmptyBoard();
         ClearBoard();
         
-        // Ejercicio 1?
         CreateNew();
     }
     
@@ -98,6 +97,25 @@ public class Sudoku : MonoBehaviour
 			return false;
 		}
 
+		if (matrixParent[x, y] != 0)
+		{
+			int newX = x;
+			int newY = y;
+				
+			if (x == matrixParent.Width - 1)
+			{
+				newX = 0;
+				newY++;
+			}
+			else
+			{
+				newX++;
+			}
+
+			if (RecuSolve(matrixParent, newX, newY, protectMaxDepth, solution))
+				return true;
+		}
+		
 		int maxValue = cellRange * cellRange + 1;
 		for (int i = 1; i < maxValue; i++)
 		{
@@ -164,17 +182,11 @@ public class Sudoku : MonoBehaviour
         
         _nums = new List<int>();
         var solution = new List<Matrix<int>>();
-        //_lastValues = new Matrix<int>(_createdMatrix.Width, _createdMatrix.Height);
         watchdog = 100000;
-        //watchdog = 3200;
-        
-        ClearBoard();
-        
+
         bool result = RecuSolve(_createdMatrix, 0, 0, watchdog, solution);
         
         _createdMatrix = solution.Last().Clone();
-        //LockRandomCells();
-        ClearUnlocked(_createdMatrix);
         //StartCoroutine(ShowSequence(solution));
         TranslateAllValues(solution.Last());
 
@@ -295,14 +307,9 @@ public class Sudoku : MonoBehaviour
     
     private void CreateNew()
     {
-	    int r = Random.Range(0, 2);
-	    bool result = r == 0;
-	    _canSolve = result ? "VALID" : "INVALID";
-	    feedback.text = _canSolve;
-	    
-	    r = result ? Random.Range(1, Tests.validBoards.Length) : Random.Range(1, Tests.invalidBoards.Length);
-        _createdMatrix = new Matrix<int>(result ? Tests.validBoards[r] : Tests.invalidBoards[r]);
-
+	    _createdMatrix = new Matrix<int>(Tests.validBoards.Last());
+	    LockRandomCells();
+	    ClearUnlocked(_createdMatrix);
         TranslateAllValues(_createdMatrix);
     }
 

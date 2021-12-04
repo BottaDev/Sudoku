@@ -82,16 +82,13 @@ public class Matrix<T> : IEnumerable<T>
     public List<T> GetRange(int x0, int y0, int x1, int y1) 
     {
 	    List<T> l = new List<T>();
-
-	    int startIndex = x0 + _height * y0;
-	    int endIndex = x1 + _height * y1;
 	    
-	    for (int i = startIndex; i < _data.Length; i++)
+	    for (int i = x0; i < x1; i++)
 	    {
-		    if (i > endIndex)
-			    break;;
-		    
-		    l.Add(_data[i]);
+		    for (int j = y0; j < y1; j++)
+		    {
+			    l.Add(_data[i]);
+		    }
 	    }
 	    
 	    return l;
