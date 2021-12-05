@@ -191,9 +191,7 @@ public class Sudoku : MonoBehaviour
 
         bool result = RecuSolve(_createdMatrix, 0, 0, watchdog, solution);
         
-        //_createdMatrix = solution.Last().Clone();
         StartCoroutine(ShowSequence(solution));
-        //TranslateAllValues(solution.Last());
 
         long mem = System.GC.GetTotalMemory(true);
         _memory = string.Format("MEM: {0:f2}MB", mem / (1024f * 1024f));
@@ -312,10 +310,13 @@ public class Sudoku : MonoBehaviour
     
     private void CreateNew()
     {
-	    _createdMatrix = new Matrix<int>(Tests.validBoards.Last());
-	    LockRandomCells();
-	    ClearUnlocked(_createdMatrix);
-        TranslateAllValues(_createdMatrix);
+	    if (cellRange == 3)
+	    {
+		    _createdMatrix = new Matrix<int>(Tests.validBoards.Last());
+		    LockRandomCells();
+		    ClearUnlocked(_createdMatrix);
+		    TranslateAllValues(_createdMatrix);    
+	    }
     }
 
     private bool CanPlaceValue(Matrix<int> mtx, int value, int x, int y)
@@ -338,23 +339,23 @@ public class Sudoku : MonoBehaviour
             }
         }
 
-        cuadrante.x = (int)(x / 3);
+        cuadrante.x = (int)(x / cellRange);
 
-        if (x < 3)
+        if (x < cellRange)
             cuadrante.x = 0;     
-        else if (x < 6)
-            cuadrante.x = 3;
+        else if (x < cellRange * 2)
+            cuadrante.x = cellRange;
         else
-            cuadrante.x = 6;
+            cuadrante.x = cellRange * 2;
 
-        if (y < 3)
+        if (y < cellRange)
             cuadrante.y = 0;
-        else if (y < 6)
-            cuadrante.y = 3;
+        else if (y < cellRange * 2)
+            cuadrante.y = cellRange;
         else
-            cuadrante.y = 6;
+            cuadrante.y = cellRange * 2;
          
-        area = mtx.GetRange((int)cuadrante.x, (int)cuadrante.y, (int)cuadrante.x + 3, (int)cuadrante.y + 3);
+        area = mtx.GetRange((int)cuadrante.x, (int)cuadrante.y, (int)cuadrante.x + cellRange, (int)cuadrante.y + cellRange);
         total.AddRange(fila);
         total.AddRange(columna);
         total.AddRange(area);
