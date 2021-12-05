@@ -11,7 +11,7 @@ public class Sudoku : MonoBehaviour
 	public Text feedback;
 	public float stepDuration = 0.05f;
 	[Range(1, 82)]public int difficulty = 40;
-	[Range(2, 10)]public int cellRange = 3;
+	[Range(2, 10)]public int cellRange = 3;		// Punto 5
 
 	private Matrix<Cell> _board;
 	private Matrix<int> _createdMatrix;
@@ -99,6 +99,8 @@ public class Sudoku : MonoBehaviour
 
 		if (matrixParent[x, y] != 0)
 		{
+			Matrix<int> nextMatrix =  matrixParent.Clone();
+			
 			int newX = x;
 			int newY = y;
 				
@@ -112,11 +114,13 @@ public class Sudoku : MonoBehaviour
 				newX++;
 			}
 
-			if (RecuSolve(matrixParent, newX, newY, protectMaxDepth, solution))
+			if (RecuSolve(nextMatrix, newX, newY, protectMaxDepth, solution))
 				return true;
+
+			return false;
 		}
 		
-		int maxValue = cellRange * cellRange + 1;
+		int maxValue = cellRange * cellRange + 1;	// Punto 5
 		for (int i = 1; i < maxValue; i++)
 		{
 			if (CanPlaceValue(matrixParent, i, x, y))
@@ -166,6 +170,7 @@ public class Sudoku : MonoBehaviour
         _frequency = 440 + num * 80;
     }
     
+    // Punto 3
 	private IEnumerator ShowSequence(List<Matrix<int>> seq)
     {
 	    for (int i = 0; i < seq.Count; i++)
@@ -186,9 +191,9 @@ public class Sudoku : MonoBehaviour
 
         bool result = RecuSolve(_createdMatrix, 0, 0, watchdog, solution);
         
-        _createdMatrix = solution.Last().Clone();
-        //StartCoroutine(ShowSequence(solution));
-        TranslateAllValues(solution.Last());
+        //_createdMatrix = solution.Last().Clone();
+        StartCoroutine(ShowSequence(solution));
+        //TranslateAllValues(solution.Last());
 
         long mem = System.GC.GetTotalMemory(true);
         _memory = string.Format("MEM: {0:f2}MB", mem / (1024f * 1024f));

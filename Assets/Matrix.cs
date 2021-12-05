@@ -83,11 +83,11 @@ public class Matrix<T> : IEnumerable<T>
     {
 	    List<T> l = new List<T>();
 	    
-	    for (int i = x0; i < x1; i++)
+	    for (int x = x0; x < x1; x++)
 	    {
-		    for (int j = y0; j < y1; j++)
+		    for (int y = y0; y < y1; y++)
 		    {
-			    l.Add(_data[i]);
+			    l.Add(this[x, y]);
 		    }
 	    }
 	    
