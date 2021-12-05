@@ -310,7 +310,7 @@ public class Sudoku : MonoBehaviour
     
     private void CreateNew()
     {
-	    if (cellRange == 3)
+	    if (cellRange < 4)
 	    {
 		    _createdMatrix = new Matrix<int>(Tests.validBoards.Last());
 		    LockRandomCells();
